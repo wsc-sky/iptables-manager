@@ -21,7 +21,7 @@ print 111,BASE_DIR
 # 蓝鲸注册信息
 APP_ID = 'iptables-manager' # 请在 蓝鲸开发者中心 -》点击应用ID -》基本信息 -》注册信息 中获取你的APP_ID
 APP_TOKEN = '4d075307-f088-496d-b073-3fb0fd6983bb' # 请在 蓝鲸开发者中心 -》点击应用ID -》基本信息 -》注册信息 中获取你的APP_TOKEN
-BK_PAAS_HOST = 'http://paas.bk.garenanow.com:80'
+# BK_PAAS_HOST = 'http://paas.bk.garenanow.com:80'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
