@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from fetch_iptables.views import home
 urlpatterns = [
-    url(r'^t/iptables-manager/api/', include('fetch_iptables.urls')),
+    url(r'^api/', include('fetch_iptables.urls')),
     url(r'^', home),
     url(r'^admin/', include(admin.site.urls)),
 ]
