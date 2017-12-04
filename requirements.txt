@@ -1,0 +1,4 @@
+#pip install
+
+Django==1.8.11
+MySQL-python==1.2.5

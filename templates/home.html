@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% include "index.html" %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="container-fluid">
+
+  {% include "navbar.html" %}
+  <div class="container">
+    <br>
+    {% if excute_success == False %}
+    <div class="alert alert-danger" role="alert">
+      <div style="white-space: pre-wrap">{{message}}</div>
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-success" role="alert">
+      <div style="white-space: pre-wrap">{{message}}</div>
+    </div>
+
+    {% endif %}
+
+
+    <div class="card">
+      <form action="/api/submit_iptables" method="post" >
+        <div class="form-group">
+          <div class="card-header" style="padding-bottom: 20px">
+            <span style="padding-top: 10px"> iptables Editor ( IP: {{ip}}) </span>
+            <div style="float: right">
+            <button type="submit" class="btn btn-outline-primary my-2 my-sm-0" >Submit</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="30"
+                      name="iptables">{{ iptables }}</textarea>
+            <textarea name="ip" hidden>{{ ip }}</textarea>
+            <br>
+
+          </div>
+
+        </div>
+      </form>
+
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
