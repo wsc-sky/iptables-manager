@@ -15,12 +15,14 @@ def encode_base64(s):
     return base64.b64encode(s)
 
 
-def check_angent_status(request, ip, plat_id):
+def check_angent_status(request, ip, plat_id, bk_token):
     url = 'http://paas.bk.garenanow.com:80/api/c/compapi/job/get_agent_status/'
+    bk_token = request.COOKIES.get('bk_token', '9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50')
+    print bk_token
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
+        "bk_token": bk_token,
         "app_id": 9,
         "ip_infos": [
             {
@@ -34,7 +36,7 @@ def check_angent_status(request, ip, plat_id):
     return JsonResponse(result)
 
 
-def fast_push_file(filename,ip):
+def fast_push_file(filename,ip, bk_token):
     url = 'http://paas.bk.garenanow.com:80/api/c/compapi/job/fast_push_file/'
 
     check_restart = iptables_check(filename)
@@ -48,7 +50,7 @@ def fast_push_file(filename,ip):
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
+        "bk_token": bk_token,
         "app_id": 9,
         "file_source": [
             {
@@ -78,14 +80,14 @@ def fast_push_file(filename,ip):
 
     return  result
 
-def fast_execute_script(script_name,ip):
+def fast_execute_script(script_name,ip, bk_token):
     url = 'http://paas.bk.garenanow.com:80/api/c/compapi/job/fast_execute_script/'
     f = open(os.path.join(settings.BASE_DIR + '/script/', script_name), 'r')
     script_content = encode_base64(f.read())
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
+        "bk_token": bk_token,
         "app_id": 9,
         "content": script_content,
         "ip_list": [
@@ -104,12 +106,12 @@ def fast_execute_script(script_name,ip):
 
     return result
 
-def check_task_log(task_id):
+def check_task_log(task_id, bk_token):
     url = 'http://paas.bk.garenanow.com:80/api/c/compapi/job/get_task_ip_log/'
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
+        "bk_token": bk_token,
         "task_instance_id": str(task_id)
     }
 
@@ -121,13 +123,13 @@ def check_task_log(task_id):
     else:
         return ''
 
-def fetch_iptables(ip):
-    result = fast_execute_script('fetch_iptables.sh', ip)
+def fetch_iptables(ip, bk_token):
+    result = fast_execute_script('fetch_iptables.sh', ip, bk_token)
 
 
     if result['result']:
         task_id = result['data']['taskInstanceId']
-        log_content = check_task_log(task_id)
+        log_content = check_task_log(task_id,bk_token)
         if log_content!='':
             return {'result': 'true', 'iptables': log_content, 'message': result}
         else:
@@ -165,10 +167,10 @@ def iptables_check(filename):
 
 
 
-def upload_file(ip, filename):
+def upload_file(ip, filename, bk_token):
 
 
-    result = fast_push_file(filename, ip)
+    result = fast_push_file(filename, ip, bk_token)
 
     if result.get('test_restart', True) == False:
         result['excute_success'] = False
@@ -196,7 +198,10 @@ def home(request):
 
 def search_by_ip(request):
     ip = request.GET['ip']
-    result = fetch_iptables(ip)
+    bk_token = request.COOKIES.get('bk_token', '9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50')
+    print bk_token
+
+    result = fetch_iptables(ip,bk_token)
     message = result['message']['message']
     try:
         iptables = result['iptables'].split('stdin: is not a tty\n')[1]
@@ -217,12 +222,15 @@ def submit_iptables(request):
     ip = request.POST['ip']
     iptables = request.POST['iptables']
 
+    bk_token = request.COOKIES.get('bk_token', '9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50')
+    print bk_token
+
 
     f = open(os.path.join(settings.BASE_DIR + '/upload_tmp_file/', 'iptables'), 'w+t')
     f.write(iptables)
     print f.read()
 
-    result = upload_file(ip, 'iptables')
+    result = upload_file(ip, 'iptables', bk_token)
 
     excute_success = False if result['excute_success']==None else result['excute_success']
 
