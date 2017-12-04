@@ -20,7 +20,7 @@ def check_angent_status(request, ip, plat_id):
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "tjMnkLqhpwp8BvkL87_jEe-XmQNhc91AReMyHEntF48",
+        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
         "app_id": 9,
         "ip_infos": [
             {
@@ -48,7 +48,7 @@ def fast_push_file(filename,ip):
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "f5a7LqZTJg0F6Nig7-2UVGxFo3bXFmKMdvEGMT3gwY0",
+        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
         "app_id": 9,
         "file_source": [
             {
@@ -85,7 +85,7 @@ def fast_execute_script(script_name,ip):
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "f5a7LqZTJg0F6Nig7-2UVGxFo3bXFmKMdvEGMT3gwY0",
+        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
         "app_id": 9,
         "content": script_content,
         "ip_list": [
@@ -109,7 +109,7 @@ def check_task_log(task_id):
     post_data = {
         "app_code": "iptables-manager",
         "app_secret": "4d075307-f088-496d-b073-3fb0fd6983bb",
-        "bk_token": "f5a7LqZTJg0F6Nig7-2UVGxFo3bXFmKMdvEGMT3gwY0",
+        "bk_token": "9NUyTFIfBihjuK7peFdXcEuvZbD1BTyII12ORxhnu50",
         "task_instance_id": str(task_id)
     }
 
